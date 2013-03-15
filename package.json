@@ -1,0 +1,11 @@
+{
+	"name": "Food-Stream",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+		"express": "3.0.6",
+		"ejs": "0.8.3",
+		"mongoose": "3.5.7",
+		"connect": "2.7.3"
+	}
+}
