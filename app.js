@@ -14,6 +14,7 @@ app.engine('ejs', engine);
 // configure Express
 app.configure(function() {
 	app.set('views', __dirname + '/views');
+	app.use(express.static(__dirname + '/public'));
 	app.set('view engine', 'ejs');
 	app.engine('ejs', engine);
 	app.use(express.cookieParser());
