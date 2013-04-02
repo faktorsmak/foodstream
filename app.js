@@ -1,6 +1,7 @@
 var express = require('express')
 	http = require('http'),
 	path = require('path'),
+    routes = require(__dirname + '/routes/main.js'),
 	engine = require('ejs-locals'),
 	MemoryStore = require('connect').session.MemoryStore,
 	dbPath = 'mongodb://localhost/foodstream',
@@ -30,9 +31,8 @@ app.configure(function() {
 });
 
 // homepage
-app.get('/', function(req, res){
-	res.render('index',{pagename: 'Homepage'});
-});
+app.get('/', routes.index);
+app.get('/signin', routes.signin);
 
 // error
 app.use(function(err, req, res, next){
