@@ -2,14 +2,13 @@
 
 <div class="container">
 
-  <form class="form-signin">
+  <form class="form-signup">
     <h2 class="form-signin-heading">Please sign in</h2>
     <input type="text" class="input-block-level" name="email" id="email" placeholder="Email address">
     <input type="password" class="input-block-level" name="password" id="password" placeholder="Password">
-    <label class="checkbox">
-      <input type="checkbox" value="remember-me"> Remember me
-    </label>
-    <button class="btn btn-large btn-primary loginButton" type="submit">Sign in</button>
+    <input type="text" class="input-block-level" name="first_name" id="first_name" placeholder="First Name">
+    <input type="text" class="input-block-level" name="last_name" id="last_name" placeholder="Last Name">
+    <button class="btn btn-large btn-primary regButton" type="submit">Sign Up</button>
   </form>
 
 </div> <!-- /container -->
@@ -17,15 +16,15 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $(".loginButton").click(function() {
+    $(".regButton").click(function() {
       $.ajax({
         type: "POST",
-        url: 'memberLogin',
-        data: $(".form-signin").serialize(),
+        url: 'memberRegister',
+        data: $(".form-signup").serialize(),
         success: function(data) {
           if (data == "OK") {
-            //login worked
-            window.location = "/"
+            //reg worked
+            window.location = "/signin"
           }
         }
       });

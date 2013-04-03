@@ -13,14 +13,6 @@ module.exports = function(mongoose) {
 	// Member Object
 	var Member = mongoose.model('Member', memberSchema);
 
-	// Register Callback
-	var registerCallback = function(err) {
-		if (err) {
-			return console.log(err);
-		};
-		return console.log('Member was Made');
-	};
-
 	// findMemberByEmail - Finds member by their email
 	var findMemberByEmail = function(email, callback) {
 		Member.findOne({email:email}, function(err,doc) {
@@ -43,18 +35,22 @@ module.exports = function(mongoose) {
 		// first make sure the user doesn't all ready have an account
 		findMemberByEmail(email, function(account) {
 			if (!account) {
-					// no accout was found, so make one
-					var user = new Member({
-						email: email,
-						password: password,
-						first_name: first,
-						last_name: last
-					});
-					// make that user!
-					user.save(registerCallback);
-			}
-			// return member doc
-			callback(account);
+				// no account was found, so make one
+				var user = new Member({
+					email: email,
+					password: password,
+					first_name: first,
+					last_name: last
+				});
+
+				// make that user!
+				user.save( function(err, results){
+					callback(results);
+				});
+			} else {
+				// return member doc
+				callback(account);
+			};
 		})
 	};
 

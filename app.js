@@ -33,6 +33,12 @@ app.configure(function() {
 // homepage
 app.get('/', routes.index);
 app.get('/signin', routes.signin);
+app.get('/signup', routes.signup);
+
+// member
+app.post('/memberLogin', routes.memberLogin);
+app.get('/memberLogout', routes.memberLogout);
+app.post('/memberRegister', routes.memberRegister);
 
 // error
 app.use(function(err, req, res, next){
