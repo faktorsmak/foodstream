@@ -37,6 +37,7 @@ app.get('/signup', routes.signup);
 
 // member
 app.post('/memberLogin', routes.memberLogin);
+app.get('/profile/:id?', routes.profile);
 app.get('/memberLogout', routes.memberLogout);
 app.post('/memberRegister', routes.memberRegister);
 

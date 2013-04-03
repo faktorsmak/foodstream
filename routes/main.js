@@ -40,6 +40,24 @@ exports.signup = function(req, res) {
 }
 
 /*
+ * GET Member Profile page
+ */
+exports.profile = function(req, res) {
+    // profileID should be the member whos page were on
+    var profileID = req.params.id;
+    // grab that member's info
+    Member.findMemberByEmail(profileID, function(account) {
+        if (account) {
+            // send acount info to view
+            res.render('profile', { account: account });
+        } else {
+            // could not found member, send error
+            res.render('profile', { });
+        }
+    });
+}
+
+/*
  * POST Member Login
  */
 exports.memberLogin = function(req, res){

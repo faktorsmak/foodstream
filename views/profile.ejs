@@ -1,0 +1,14 @@
+<% layout('layout') -%>
+
+<div class="container">
+<h2>Member Profile Page</h2>
+
+<% if (typeof account == 'undefined') { %>
+  <h4>Could not find user.</h4>
+<% } else { %>
+  <h4>Email: <%- account.email %></h4>
+  <h4>First Name: <%- account.first_name %></h4>
+  <h4>Last Name: <%- account.last_name %></h4>
+<% } %>
+
+</div> <!-- /container -->

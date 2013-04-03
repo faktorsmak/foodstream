@@ -1,5 +1,6 @@
 module.exports = function(mongoose) {
 	// TODO - encrypted member passwords
+	// TODO - Member usernames 
 
 	// Member Schema
 	var memberSchema = new mongoose.Schema({
