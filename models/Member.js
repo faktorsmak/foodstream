@@ -33,18 +33,18 @@ module.exports = function(mongoose) {
 		});
 	};
 
-    // findMemberByID - Finds member by their _id
-    var findMemberByID = function(id, callback) {
-        Member.findOne({_id:id}, function(err,doc) {
-            //return member doc if found
-            callback(doc);
-        });
-    };
+	// findMemberByID - Finds member by their _id
+	var findMemberByID = function(id, callback) {
+		Member.findOne({_id:id}, function(err,doc) {
+			//return member doc if found
+			callback(doc);
+		});
+	};
 
 	// login - Member login call
 	var login = function(email, password, callback) {
 		Member.findOne({email:email,password:password},function(err,member){
-            //return member doc if found
+			//return member doc if found
 			callback(member);
 		});
 	};

@@ -45,6 +45,10 @@ app.post('/memberRegister', routes.memberRegister);
 app.post('/memberFollow', routes.memberFollow);
 app.post('/memberUnfollow', routes.memberUnfollow);
 
+// activity
+app.get('/addActivity', routes.addActivityForm);
+app.post('/addActivity', routes.addActivity);
+
 // error
 app.use(function(err, req, res, next){
 	console.error(err.stack);
