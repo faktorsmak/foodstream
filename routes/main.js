@@ -16,21 +16,21 @@ var Member = require('../models/Member')(mongoose);
  */
 
 exports.index = function(req, res) {
-    res.render('index', { blah : 'bar'});
+    res.render('index', { user : req.session.user});
 }
 
 /*
  * GET sign-in page
  */
 exports.signin = function(req, res) {
-    res.render('signin', {});
+    res.render('signin', {user : req.session.user});
 }
 
 /*
  * GET sign-in page
  */
 exports.signup = function(req, res) {
-    res.render('signup', {});
+    res.render('signup', {user : req.session.user});
 }
 
 /*
@@ -39,14 +39,16 @@ exports.signup = function(req, res) {
 exports.profile = function(req, res) {
     // profileID should be the member whos page were on
     var profileID = req.params.id;
+    console.log("getting profile with id:", profileID);
     // grab that member's info
-    Member.findMemberByEmail(profileID, function(account) {
+    Member.findMemberByID(profileID, function(account) {
         if (account) {
+            console.log("in profile and found account, ", account);
             // send acount info to view
-            res.render('profile', { account: account });
+            res.render('profile', { account: account, user : req.session.user });
         } else {
             // could not found member, send error
-            res.render('profile', { });
+            res.send(400);
         }
     });
 }
@@ -70,6 +72,7 @@ exports.memberLogin = function(req, res){
             return; // or wrong password or email
         }
         // Set session info
+        req.session.user = account;
         req.session.loggedIn = true;
         req.session.memberId = account._id;
         req.session.firstName = account.first_name;

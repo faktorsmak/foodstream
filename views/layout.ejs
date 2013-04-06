@@ -57,12 +57,18 @@
 	          <a class="brand" href="/">FoodStream</a>
 	          <div class="nav-collapse collapse">
 	            <p class="navbar-text pull-right">
-	              <a href="/signin" class="navbar-link">Sign In</a> | <a href="/signup" class="navbar-link">Sign Up</a>
+	            	<% if (user) { %>
+	            		Welcome, <%= user.first_name %> (<a href="profile/<%= user._id %>">profile</a> | <a href="/memberLogout">sign out</a>)
+	            	<% } else { %>
+	              		<a href="/signin" class="navbar-link">Sign In</a> | <a href="/signup" class="navbar-link">Sign Up</a>
+	              	<% } %>
 	            </p>
 	            <ul class="nav">
 	              <li class="active"><a href="/">Home</a></li>
 	              <li><a href="#about">About</a></li>
-	              <li><a href="#contact">Sign Up</a></li>
+	              <% if (user === undefined) { %>
+	              	<li><a href="/signup">Sign Up</a></li>
+	              <% } %>
 	            </ul>
 	          </div><!--/.nav-collapse -->
 	        </div>
