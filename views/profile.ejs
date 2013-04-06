@@ -11,4 +11,42 @@
   <h4>Last Name: <%- account.last_name %></h4>
 <% } %>
 
+<button class="btn btn-large btn-primary followButton" type="submit">Follow Me!</button>
+<button class="btn btn-large btn-primary unfollowButton" type="submit">UnFollow Me!</button>
+
 </div> <!-- /container -->
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".followButton").click(function() {
+      var data = {
+      	'email':'<%- account.email %>',
+        'first_name':'<%- account.first_name %>',
+        'last_name':'<%- account.last_name %>'
+      }
+      $.ajax({
+        type: "POST",
+        url: '/memberFollow',
+        data: data,
+        success: function(data) {
+          console.log(data);
+        }
+      });
+      return false;
+    });
+    $(".unfollowButton").click(function() {
+      var data = {
+      	'email':'<%- account.email %>'
+      }
+      $.ajax({
+        type: "POST",
+        url: '/memberUnfollow',
+        data: data,
+        success: function(data) {
+          console.log(data);
+        }
+      });
+      return false;
+    });
+  });
+</script>

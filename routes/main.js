@@ -1,18 +1,12 @@
-var mongoose = require('mongoose'), 
-        db = mongoose.createConnection('localhost', 'foodstream'),
-        url = require('url'),
-        fs = require('fs'),
-        truncate = require('./utils.js').truncate,
-        resizeImage = require('./utils.js').resizeImage;
+// TODO - function out prams validation
+// TODO - function for login check
 
-/*
-var bookSchema = new mongoose.Schema({ 
-        title:String,
-        description:String,
-        publishdate:Date 
-}); 
-var Book = db.model('Book', bookSchema); 
-*/
+var mongoose = require('mongoose'), 
+    db = mongoose.createConnection('localhost', 'foodstream'),
+    url = require('url'),
+    fs = require('fs'),
+    truncate = require('./utils.js').truncate,
+    resizeImage = require('./utils.js').resizeImage;
 
 // import model
 var Member = require('../models/Member')(mongoose);
@@ -80,6 +74,7 @@ exports.memberLogin = function(req, res){
         req.session.memberId = account._id;
         req.session.firstName = account.first_name;
         req.session.lastName = account.last_name;
+        req.session.email = account.email;
         res.send(200);
     });
 };
@@ -117,6 +112,70 @@ exports.memberRegister = function(req, res){
             res.send(200); //there is an account
         } else {
             res.send(400); //there isn't an account
+        }
+    });
+};
+
+/*
+ * POST Member Follow
+ */
+exports.memberFollow = function(req, res){
+    // Set parmas
+    var email = req.param('email', ''),
+        first = req.param('first_name', ''),
+        last = req.param('last_name', '');
+    // Are parmas vaild?
+    if ( null == email || email.length < 1) {
+        res.send(400); //kick them out
+        return;
+    };
+    if ( null == first || first.length < 1 || null == last || last.length < 1 ) {
+        res.send(400); //kick them out
+        return;
+    };
+    // is the user loggin?
+    if(!req.session.email) {
+        res.send(400); //kick them out
+        return;
+    };
+    // add follower
+    Member.startFollow(email,first,last,req.session.email, function(results) {
+        // it worked...
+        if(results){
+            res.send(200); 
+        } else {
+            // something went wrong
+            // so wrong...
+            res.send(400);
+        }
+    });
+};
+
+/*
+ * POST Member Unfollow
+ */
+exports.memberUnfollow = function(req, res){
+    // Set parmas
+    var email = req.param('email', '');
+        // Are parmas vaild?
+    if ( null == email || email.length < 1) {
+        res.send(400); //kick them out
+        return;
+    };
+    // is the user loggin?
+    if(!req.session.email) {
+        res.send(400); //kick them out
+        return;
+    };
+    // remove follower
+    Member.stopFollow(email,req.session.email, function(results) {
+        // it worked...
+        if(results){
+            res.send(200); 
+        } else {
+            // something went wrong
+            // so wrong...
+            res.send(400);
         }
     });
 };

@@ -41,6 +41,10 @@ app.get('/profile/:id?', routes.profile);
 app.get('/memberLogout', routes.memberLogout);
 app.post('/memberRegister', routes.memberRegister);
 
+// followers
+app.post('/memberFollow', routes.memberFollow);
+app.post('/memberUnfollow', routes.memberUnfollow);
+
 // error
 app.use(function(err, req, res, next){
 	console.error(err.stack);
