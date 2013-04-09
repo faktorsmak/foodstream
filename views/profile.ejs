@@ -1,64 +1,61 @@
 <% layout('layout') -%>
 
 <div class="container">
-<h2>Member Profile Page</h2>
-
-<% if (typeof account == 'undefined') { %>
-  <h4>Could not find user.</h4>
-<% } else { %>
-  <h4>Email: <%- account.email %></h4>
-  <h4>First Name: <%- account.first_name %></h4>
-  <h4>Last Name: <%- account.last_name %></h4>
-<% } %>
-
-<button class="btn btn-large btn-primary followButton" type="submit">Follow Me!</button>
-<button class="btn btn-large btn-primary unfollowButton" type="submit">UnFollow Me!</button>
-
-<hr/>
-<% for (var i=0; i < activities.length; i++ ) { %>
-	<div class="">
-		<p><%= activities[i].description %></p>
-		<p>
-			<%= activities[i].modifiedDate.toDateString() %>
-			<%= activities[i].modifiedDate.toTimeString() %>
-		</p>
-		<img src="/images/activity/<%= activities[i]._id %>" alt="<%= activities[i].description %>" width="175" />
-	</div>
+	<h2>Member Profile Page</h2>
+	<% if (typeof account == 'undefined') { %>
+		<h4>Could not find user.</h4>
+	<% } else { %>
+		<h4>Email: <%- account.email %></h4>
+		<h4>First Name: <%- account.first_name %></h4>
+		<h4>Last Name: <%- account.last_name %></h4>
+	<% } %>
+	<button class="btn btn-large btn-primary followButton" type="submit">Follow Me!</button>
+	<button class="btn btn-large btn-primary unfollowButton" type="submit">UnFollow Me!</button>
 	<hr/>
-<% } %>
+	<% for (var i=0; i < activities.length; i++ ) { %>
+		<div class="">
+			<p><%= activities[i].description %></p>
+			<p>
+				<%= activities[i].modifiedDate.toDateString() %>
+				<%= activities[i].modifiedDate.toTimeString() %>
+			</p>
+			<img src="/images/activity/<%= activities[i]._id %>" alt="<%= activities[i].description %>" width="175" />
+		</div>
+		<hr/>
+	<% } %>
 </div> <!-- /container -->
 
 <script type="text/javascript">
-  $(document).ready(function() {
-	$(".followButton").click(function() {
-	  var data = {
-	  	'email':'<%- account.email %>',
-		'first_name':'<%- account.first_name %>',
-		'last_name':'<%- account.last_name %>'
-	  }
-	  $.ajax({
-		type: "POST",
-		url: '/memberFollow',
-		data: data,
-		success: function(data) {
-		  console.log(data);
-		}
-	  });
-	  return false;
+	$(document).ready(function() {
+		$(".followButton").click(function() {
+			var data = {
+				'email':'<%- account.email %>',
+				'first_name':'<%- account.first_name %>',
+				'last_name':'<%- account.last_name %>'
+			};
+			$.ajax({
+				type: "POST",
+				url: '/memberFollow',
+				data: data,
+				success: function(data) {
+					console.log(data);
+				}
+			});
+			return false;
+		});
+		$(".unfollowButton").click(function() {
+			var data = {
+				'email':'<%- account.email %>'
+			};
+			$.ajax({
+				type: "POST",
+				url: '/memberUnfollow',
+				data: data,
+				success: function(data) {
+					console.log(data);
+				}
+			});
+			return false;
+		});
 	});
-	$(".unfollowButton").click(function() {
-	  var data = {
-	  	'email':'<%- account.email %>'
-	  }
-	  $.ajax({
-		type: "POST",
-		url: '/memberUnfollow',
-		data: data,
-		success: function(data) {
-		  console.log(data);
-		}
-	  });
-	  return false;
-	});
-  });
 </script>

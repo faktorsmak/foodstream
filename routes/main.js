@@ -1,6 +1,7 @@
 // TODO - function out prams validation
 // TODO - function for login check
 
+// define vars
 var mongoose = require('mongoose'), 
 	db = mongoose.createConnection('localhost', 'foodstream'),
 	url = require('url'),
@@ -186,6 +187,9 @@ exports.memberUnfollow = function(req, res){
 	});
 };
 
+/*
+ * GET Add Activity Form
+ */
 exports.addActivityForm = function(req, res) {
 	if (req.session.user) {
 		res.render('newactivity', {user: req.session.user});
@@ -194,6 +198,9 @@ exports.addActivityForm = function(req, res) {
 	}
 };
 
+/*
+ * POST Add Activity
+ */
 exports.addActivity = function(req, res) {
 	ActivityStream.addActivity(req.session.user._id, req.body.type, req.body.description, req.body.activityDate, req.files.image, function(err) {
 		if (err) res.send(500);

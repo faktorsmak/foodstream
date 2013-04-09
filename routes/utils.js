@@ -1,5 +1,5 @@
+// define var
 var gm = require("gm");
-
 
 /**
  * Truncate a string to the given length, breaking at word boundaries and adding an elipsis
@@ -33,10 +33,10 @@ exports.truncate = function (str, limit) {
  * @param function callback
  */
 exports.resizeImage = function(inputPath, outputPath, width, height, callback) {
-    var mygm = gm(inputPath);
-    mygm = mygm.resize(width, height);
-    mygm.write(outputPath, function (err) {
-        // err is null if there is no error
-        callback(err);
-    });
+	var mygm = gm(inputPath);
+	mygm = mygm.resize(width, height);
+	mygm.write(outputPath, function (err) {
+		// err is null if there is no error
+		callback(err);
+	});
 }

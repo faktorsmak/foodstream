@@ -17,7 +17,6 @@
 			.sidebar-nav {
 				padding: 9px 0;
 			}
-
 			@media (max-width: 980px) {
 				/* Enable use of floated navbar text */
 				.navbar-text.pull-right {
@@ -38,14 +37,13 @@
 		<!-- Fav and touch icons -->
 		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/bootstrap/ico/apple-touch-icon-144-precomposed.png">
 		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/bootstrap/ico/apple-touch-icon-114-precomposed.png">
-			<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/bootstrap/ico/apple-touch-icon-72-precomposed.png">
-										<link rel="apple-touch-icon-precomposed" href="/bootstrap/ico/apple-touch-icon-57-precomposed.png">
-																	 <link rel="shortcut icon" href="/bootstrap/ico/favicon.png">
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/bootstrap/ico/apple-touch-icon-72-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" href="/bootstrap/ico/apple-touch-icon-57-precomposed.png">
+		<link rel="shortcut icon" href="/bootstrap/ico/favicon.png">
 	</head>
 
 	<body>
 		<div class="container-fluid">
-	
 			<div class="navbar navbar-inverse navbar-fixed-top">
 				<div class="navbar-inner">
 					<div class="container-fluid">
@@ -61,7 +59,7 @@
 									Welcome, <%= user.first_name %> (<a href="profile/<%= user._id %>">profile</a> | <a href="/memberLogout">sign out</a>)
 								<% } else { %>
 										<a href="/signin" class="navbar-link">Sign In</a> | <a href="/signup" class="navbar-link">Sign Up</a>
-									<% } %>
+								<% } %>
 							</p>
 							<ul class="nav">
 								<li class="active"><a href="/">Home</a></li>
@@ -88,8 +86,6 @@
 			<footer>
 				<p>&copy; UR?U8 2013</p>
 			</footer>
-
 		</div><!--/.fluid-container-->
-
 	</body>
 </html>
