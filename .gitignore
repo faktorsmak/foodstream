@@ -11,6 +11,7 @@ pids
 logs
 results
 node_modules
+public/images/activity
 
 npm-debug.log
 TODO.txt
