@@ -63,7 +63,8 @@ exports.profile = function(req, res) {
 exports.memberLogin = function(req, res){
 	// Set parmas
 	var email = req.param('email', ''),
-	password = req.param('password', '');
+	password = req.param('password', ''),
+	rememberMe = req.param('rememberMe', '');
 	// Are parmas vaild?
 	if ( null == email || email.length < 1 || null == password || password.length < 1 ) {
 		res.send(400); //kick them out
@@ -82,6 +83,13 @@ exports.memberLogin = function(req, res){
 		req.session.firstName = account.first_name;
 		req.session.lastName = account.last_name;
 		req.session.email = account.email;
+		// user click the remember feild
+		if(rememberMe == "on") {
+			// set cookies
+			res.cookie('username', account.first_name, { maxAge: 900000, httpOnly: true });
+			// we will have to store the username and password in order for this work
+			// since password is not being encrypted i'm not going to store it for now...
+		};
 		res.send(200);
 	});
 };
