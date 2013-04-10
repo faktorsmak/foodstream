@@ -109,10 +109,11 @@ exports.memberRegister = function(req, res){
 	// Set parmas
 	var password = req.param('password', ''),
 		email = req.param('email', ''),
+		username = req.param('username', ''),
 		first = req.param('first_name', ''),
 		last = req.param('last_name', '');
 	// Are parmas vaild?
-	if ( null == email || email.length < 1 || null == password || password.length < 1 ) {
+	if ( null == email || email.length < 1 || null == password || password.length < 1 || null == username || username.length < 1 ) {
 		res.send(400); //kick them out
 		return;
 	};
@@ -121,7 +122,7 @@ exports.memberRegister = function(req, res){
 		return;
 	};
 	// Register the Member
-	Member.register(email,password,first,last, function(account) {
+	Member.register(email,password,username,first,last, function(account) {
 		// Made the account / return an account
 		if(account){
 			res.send(200); //there is an account

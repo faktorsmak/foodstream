@@ -56,7 +56,7 @@
 						<div class="nav-collapse collapse">
 							<p class="navbar-text pull-right">
 								<% if (user) { %>
-									Welcome, <%= user.first_name %> (<a href="profile/<%= user._id %>">profile</a> | <a href="/memberLogout">sign out</a>)
+									Welcome, <%= user.first_name %> | <%= user.username %>(<a href="profile/<%= user._id %>">profile</a> | <a href="/memberLogout">sign out</a>)
 								<% } else { %>
 										<a href="/signin" class="navbar-link">Sign In</a> | <a href="/signup" class="navbar-link">Sign Up</a>
 								<% } %>

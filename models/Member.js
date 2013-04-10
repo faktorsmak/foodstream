@@ -1,6 +1,5 @@
 module.exports = function(mongoose) {
 	// TODO - encrypted member passwords
-	// TODO - Member usernames 
 	// TODO - Log errors
 	// BUG - You can follow yourself!
 	// BUG - You can follow the same person over and over again
@@ -17,6 +16,7 @@ module.exports = function(mongoose) {
 		//every member should least have this info
 		email: { type: String }, //set these to require and cap them...
 		password: { type: String },
+		username: { type: String },
 		first_name: { type: String },
 		last_name: { type: String },
 		followers:  [Followers],
@@ -28,6 +28,14 @@ module.exports = function(mongoose) {
 	// findMemberByEmail - Finds member by their email
 	var findMemberByEmail = function(email, callback) {
 		Member.findOne({email:email}, function(err,doc) {
+			//return member doc if found
+			callback(doc);
+		});
+	};
+
+	// findMemberByEmail - Finds member by their username
+	var findMemberByUserName = function(username, callback) {
+		Member.findOne({username:username}, function(err,doc) {
 			//return member doc if found
 			callback(doc);
 		});
@@ -50,7 +58,7 @@ module.exports = function(mongoose) {
 	};
 
 	// register - Register the member with some info
-	var register = function(email,password,first,last,callback) {
+	var register = function(email,password,username,first,last,callback) {
 		// first make sure the user doesn't all ready have an account
 		findMemberByEmail(email, function(account) {
 			if (!account) {
@@ -58,6 +66,7 @@ module.exports = function(mongoose) {
 				var user = new Member({
 					email: email,
 					password: password,
+					username: username,
 					first_name: first,
 					last_name: last
 				});
