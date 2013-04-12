@@ -41,11 +41,10 @@ exports.signup = function(req, res) {
 exports.profile = function(req, res) {
 	// profileID should be the member whos page were on
 	var profileID = req.params.id;
-	console.log("getting profile with id:", profileID);
+	//console.log("getting profile with id:", profileID);
 	// grab that member's info
 	Member.findMemberByID(profileID, function(account) {
 		if (account) {
-			console.log("in profile and found account, ", account);
 			ActivityStream.getLatestActivities(account._id, function(err, activities) {
 				// send acount info to view
 				res.render('profile', { account: account, activities: activities, user : req.session.user });

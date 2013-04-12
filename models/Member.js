@@ -1,8 +1,7 @@
 module.exports = function(mongoose) {
 	// TODO - encrypted member passwords
 	// TODO - Log errors
-	// BUG - You can follow yourself!
-	// BUG - You can follow the same person over and over again
+	// TODO - use username to id members (stop using email)
 
 	// Schema for followers
 	var Followers = new mongoose.Schema({
@@ -83,6 +82,23 @@ module.exports = function(mongoose) {
 		})
 	};
 
+	// areYouAllReadyFollowingThem - pick a better name
+	var areYouAllReadyFollowingThem = function(email,member) {
+		//email - user who is being added
+		//member - user who wants to add
+		var friendsArray = member.followers;
+		//you cant follow yourself
+		if(member.email == email){ return true; };
+		//loop over following
+		for (var i = friendsArray.length - 1; i >= 0; i--) {
+			if(friendsArray[i].email == email){
+				return true; // found a match
+			};
+		};
+		//member is not following them
+		return false;
+	};
+
 	// startFollow - adds follow to member obj
 	var startFollow = function(email,first,last,member,callback) {
 		// member is the user who is doing the following
@@ -94,13 +110,16 @@ module.exports = function(mongoose) {
 		};
 		// find member
 		findMemberByEmail(member, function(account) {
-			//push followerObj into 'followers' of the member obj
-			account.followers.push(followerObj);
-			//save that follower!
-			account.save( function(err, results){
-				// should we log err?
-				callback(results);
-			});
+			//test if member if all ready following them
+			if(!areYouAllReadyFollowingThem(email,account)){
+				//push followerObj into 'followers' of the member obj
+				account.followers.push(followerObj);
+				//save that follower!
+				account.save( function(err, results){
+					// should we log err?
+					callback(results);
+				});
+			};
 		});
 	};
 
