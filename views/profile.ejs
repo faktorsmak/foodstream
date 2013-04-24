@@ -1,17 +1,32 @@
 <% layout('layout') -%>
 
+
 <div class="container">
-	<h2>Member Profile Page</h2>
 	<% if (typeof account == 'undefined') { %>
 		<h4>Could not find user.</h4>
 	<% } else { %>
-		<h4>Email: <%- account.email %></h4>
-		<h4>First Name: <%- account.first_name %></h4>
-		<h4>Last Name: <%- account.last_name %></h4>
+		<h1 data-bind="text: fullName"></h1>
+		<h4>Email: <span data-bind="text: email"></span></h4>
 	<% } %>
 	<button class="btn btn-large btn-primary followButton" type="submit">Follow Me!</button>
 	<button class="btn btn-large btn-primary unfollowButton" type="submit">UnFollow Me!</button>
 	<hr/>
+	<% if (user) { %>
+		
+	<% } %>
+	
+	<button data-bind="click: getImages">Get Images</button>
+	<table class="images" data-bind="with: streamImages">
+		<tbody data-bind="foreach: activities">
+			<tr>
+				<td>
+					<img data-bind="attr: {src: '/images/activity/' + _id, alt: description}" width="150" /><span data-bind="text: description"></span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+<!--
 	<% for (var i=0; i < activities.length; i++ ) { %>
 		<div class="">
 			<p><%= activities[i].description %></p>
@@ -23,10 +38,29 @@
 		</div>
 		<hr/>
 	<% } %>
+-->
 </div> <!-- /container -->
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		
+		var ViewModel = function(first, last, email) {
+			var self = this;
+		    self.firstName = ko.observable(first);
+		    self.lastName = ko.observable(last);
+		    this.fullName = ko.computed(function() {
+		        return this.firstName() + " " + this.lastName();
+		    }, this);
+		    self.email = ko.observable(email);
+			self.streamImages = ko.observable();
+
+			// Behaviors
+			self.getImages = function(folder) {
+				$.get('/activity/<%- account._id %>', self.streamImages);
+			};
+		};
+		ko.applyBindings(new ViewModel("<%- account.first_name %>", "<%- account.last_name %>", "<%- account.email %>"));
+
 		$(".followButton").click(function() {
 			var data = {
 				'email':'<%- account.email %>',

@@ -196,6 +196,27 @@ exports.memberUnfollow = function(req, res){
 };
 
 /*
+ * GET activity
+ */
+exports.getActivity = function(req, res) {
+	// profileID should be the member whos page were on
+	var profileID = req.params.id;
+	//console.log("getting profile with id:", profileID);
+	// grab that member's info
+	Member.findMemberByID(profileID, function(account) {
+		if (account) {
+			ActivityStream.getLatestActivities(account._id, function(err, activities) {
+				// send acount info to view
+				res.send({ account: account, activities: activities });
+			});
+		} else {
+			// could not found member, send error
+			res.send(400);
+		}
+	});
+}
+
+/*
  * GET Add Activity Form
  */
 exports.addActivityForm = function(req, res) {

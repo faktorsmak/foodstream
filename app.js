@@ -46,6 +46,7 @@ app.post('/memberFollow', routes.memberFollow);
 app.post('/memberUnfollow', routes.memberUnfollow);
 
 // activity
+app.get('/activity/:id', routes.getActivity);
 app.get('/addActivity', routes.addActivityForm);
 app.post('/addActivity', routes.addActivity);
 
