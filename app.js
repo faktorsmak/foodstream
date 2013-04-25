@@ -1,3 +1,4 @@
+// TODO - build a 500 error page
 var express = require('express')
 	http = require('http'),
 	path = require('path'),

@@ -10,6 +10,16 @@ module.exports = function(mongoose) {
 		email: { type: String  }
 	});
 
+	// Schema for an Activity
+	var Activity = new mongoose.Schema({
+		memberID: { type: String }, // reference to members collection
+		type: { type: String },	 // breakfast, lunch, dinner, snack, drink
+		description: { type: String },  // optional description of the activity
+		addedDate: { type: String },  // when the activity occurred
+		activityDate: { type: Date },  // when the activity occurred
+		modifiedDate: { type: Date }  // when the activity was added/updated
+	});
+
 	// Member Schema
 	var memberSchema = new mongoose.Schema({
 		//every member should least have this info
@@ -18,7 +28,9 @@ module.exports = function(mongoose) {
 		username: { type: String },
 		first_name: { type: String },
 		last_name: { type: String },
-		followers:  [Followers],
+		followers: [Followers],
+		memberStream: [Activity], // member's own activity updates only
+		activityStream: [Activity] // member's own and follower's updates
 	});
 
 	// Member Object
@@ -32,7 +44,7 @@ module.exports = function(mongoose) {
 		});
 	};
 
-	// findMemberByEmail - Finds member by their username
+	// findMemberByUserName - Finds member by their username
 	var findMemberByUserName = function(username, callback) {
 		Member.findOne({username:username}, function(err,doc) {
 			//return member doc if found

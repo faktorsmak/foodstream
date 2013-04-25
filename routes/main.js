@@ -11,7 +11,7 @@ var mongoose = require('mongoose'),
 
 // import model
 var Member = require('../models/Member')(mongoose);
-var ActivityStream = require('../models/ActivityStream')(mongoose,resizeImage,fs);
+var ActivityStream = require('../models/ActivityStream')(Member,mongoose,resizeImage,fs);
 
 /*
  * GET home page.
@@ -45,7 +45,7 @@ exports.profile = function(req, res) {
 	// grab that member's info
 	Member.findMemberByID(profileID, function(account) {
 		if (account) {
-			ActivityStream.getLatestActivities(account._id, function(err, activities) {
+			ActivityStream.getLatestActivities(account._id, function(activities) {
 				// send acount info to view
 				res.render('profile', { account: account, activities: activities, user : req.session.user });
 			});
@@ -205,7 +205,7 @@ exports.getActivity = function(req, res) {
 	// grab that member's info
 	Member.findMemberByID(profileID, function(account) {
 		if (account) {
-			ActivityStream.getLatestActivities(account._id, function(err, activities) {
+			ActivityStream.getLatestActivities(account._id, function(activities) {
 				// send acount info to view
 				res.send({ account: account, activities: activities });
 			});
@@ -231,7 +231,8 @@ exports.addActivityForm = function(req, res) {
  * POST Add Activity
  */
 exports.addActivity = function(req, res) {
-	ActivityStream.addActivity(req.session.user._id, req.body.type, req.body.description, req.body.activityDate, req.files.image, function(err) {
+	var time = Date.now();
+	ActivityStream.addActivity(req.session.user._id, req.body.type, req.body.description, time, req.files.image, function(err) {
 		if (err) res.send(500);
 		res.redirect('/profile/' + req.session.user._id);
 	});
